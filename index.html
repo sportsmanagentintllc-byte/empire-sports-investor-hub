@@ -1,84 +1,1819 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Empire Sports — Investor Hub</title>
-<meta name="description" content="Investor hub for Empire Sports — the operating system for African sports talent."/>
-<link rel="icon" href="assets/icons/favicon.svg" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #D4A017;
+    --gold-light: #F0C040;
+    --gold-dim: #8A6610;
+    --red: #C0392B;
+    --red-bright: #E74C3C;
+    --green: #1A6B3A;
+    --green-bright: #27AE60;
+    --black: #0A0A0A;
+    --black-2: #111111;
+    --black-3: #1A1A1A;
+    --black-4: #222222;
+    --white: #F5F0E8;
+    --white-dim: #B8B0A0;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-condensed: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    background: rgba(10,10,10,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo .empire { color: var(--gold); }
+
+  .nav-badge {
+    font-family: var(--font-condensed);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--red);
+    color: var(--white);
+    padding: 3px 10px;
+    margin-left: 8px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--black);
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #overview {
+    min-height: 100vh;
+    padding-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .inv-hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .inv-eyebrow {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--red-bright);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .inv-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--red-bright);
+  }
+
+  .inv-headline {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 0.92;
+    margin-bottom: 32px;
+  }
+
+  .inv-headline .hl-gold { color: var(--gold); }
+  .inv-headline .hl-dim { color: rgba(245,240,232,0.25); }
+
+  .inv-sub {
+    font-size: 17px;
+    color: var(--white-dim);
+    max-width: 440px;
+    line-height: 1.8;
+    margin-bottom: 48px;
+  }
+
+  .inv-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 64px;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    font-family: var(--font-condensed);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    font-family: var(--font-condensed);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border: 1px solid rgba(245,240,232,0.25);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .inv-trust {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .trust-val {
+    font-family: var(--font-display);
+    font-size: 40px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .trust-label {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    margin-top: 4px;
+  }
+
+  /* Hero right — pitch visual */
+  .inv-hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    overflow: hidden;
+  }
+
+  .inv-hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(212,160,23,0.02) 40px,
+      rgba(212,160,23,0.02) 41px
+    );
+  }
+
+  .pitch-stack {
+    position: relative;
+    width: 340px;
+    z-index: 2;
+  }
+
+  .pitch-card {
+    background: var(--black-3);
+    border: 1px solid rgba(212,160,23,0.2);
+    padding: 36px;
+    position: relative;
+  }
+
+  .pitch-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+  }
+
+  .pitch-card-shadow {
+    position: absolute;
+    inset: 0;
+    background: var(--black-4);
+    border: 1px solid rgba(212,160,23,0.08);
+    transform: translate(12px, 12px);
+    z-index: -1;
+  }
+
+  .pitch-label {
+    font-family: var(--font-condensed);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pitch-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-bright);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .pitch-title {
+    font-family: var(--font-display);
+    font-size: 42px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .pitch-title span { color: var(--gold); }
+
+  .pitch-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 28px;
+  }
+
+  .pitch-metric {
+    background: var(--black-4);
+    padding: 16px 18px;
+  }
+
+  .pitch-metric-val {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .pitch-metric-key {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    margin-top: 4px;
+  }
+
+  .pitch-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pitch-pillar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--black-4);
+  }
+
+  .pillar-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .pillar-dot.p1 { background: var(--red-bright); }
+  .pillar-dot.p2 { background: var(--gold); }
+  .pillar-dot.p3 { background: var(--green-bright); }
+  .pillar-dot.p4 { background: var(--white-dim); }
+
+  .pillar-name {
+    font-family: var(--font-condensed);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    flex: 1;
+  }
+
+  .pillar-status {
+    font-family: var(--font-condensed);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--green-bright);
+  }
+
+  .pillar-status.building { color: var(--gold); }
+
+  .hero-stripe {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    display: flex;
+  }
+
+  .hero-stripe span { flex: 1; }
+  .hero-stripe span:nth-child(1) { background: var(--red); }
+  .hero-stripe span:nth-child(2) { background: var(--gold); }
+  .hero-stripe span:nth-child(3) { background: var(--green); }
+
+  /* ── CONFIDENTIAL BAR ── */
+  .conf-bar {
+    background: var(--black-3);
+    border-top: 1px solid rgba(192,57,43,0.3);
+    border-bottom: 1px solid rgba(192,57,43,0.3);
+    padding: 14px 60px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .conf-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .conf-text {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--white-dim);
+  }
+
+  .conf-text strong {
+    color: var(--red-bright);
+    font-weight: 700;
+  }
+
+  /* ── SECTION SHARED ── */
+  .section-label {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 68px);
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+
+  .section-title em { font-style: normal; color: var(--gold); }
+
+  /* ── PROBLEM / OPPORTUNITY ── */
+  #opportunity {
+    padding: 120px 60px;
+    background: var(--black-2);
+  }
+
+  .opp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 64px;
+  }
+
+  .problem-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .problem-item {
+    background: var(--black-3);
+    padding: 28px 32px;
+    border-left: 3px solid var(--red);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .problem-item::after {
+    content: '✗';
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: rgba(192,57,43,0.2);
+  }
+
+  .problem-title {
+    font-family: var(--font-condensed);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .problem-desc {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  .solution-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .solution-item {
+    background: var(--black-3);
+    padding: 28px 32px;
+    border-left: 3px solid var(--green-bright);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .solution-item::after {
+    content: '✓';
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: rgba(39,174,96,0.2);
+  }
+
+  .solution-title {
+    font-family: var(--font-condensed);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .solution-desc {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  .opp-col-label {
+    font-family: var(--font-display);
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .opp-col-label.problem { color: var(--red-bright); }
+  .opp-col-label.solution { color: var(--green-bright); }
+
+  /* Market stats */
+  .market-stats {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .market-stat {
+    background: var(--black-3);
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .market-stat-val {
+    font-family: var(--font-display);
+    font-size: 48px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .market-stat-label {
+    font-family: var(--font-condensed);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    line-height: 1.5;
+  }
+
+  /* ── PRODUCT ── */
+  #product {
+    padding: 120px 60px;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #product::before {
+    content: 'PRODUCT';
+    position: absolute;
+    right: -40px;
+    top: 60px;
+    font-family: var(--font-display);
+    font-size: 180px;
+    color: rgba(212,160,23,0.03);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+  }
+
+  .pillar-card {
+    background: var(--black-3);
+    padding: 40px 32px;
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .pillar-card:hover { background: var(--black-4); }
+
+  .pillar-num {
+    font-family: var(--font-display);
+    font-size: 72px;
+    line-height: 1;
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    opacity: 0.07;
+  }
+
+  .pillar-card:nth-child(1) .pillar-num { color: var(--red); }
+  .pillar-card:nth-child(2) .pillar-num { color: var(--gold); }
+  .pillar-card:nth-child(3) .pillar-num { color: var(--green); }
+  .pillar-card:nth-child(4) .pillar-num { color: var(--white); }
+
+  .pillar-icon-box {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .pillar-card:nth-child(1) .pillar-icon-box { background: var(--red); }
+  .pillar-card:nth-child(2) .pillar-icon-box { background: var(--gold-dim); }
+  .pillar-card:nth-child(3) .pillar-icon-box { background: var(--green); }
+  .pillar-card:nth-child(4) .pillar-icon-box { background: var(--black-4); border: 1px solid rgba(255,255,255,0.1); }
+
+  .pillar-card-title {
+    font-family: var(--font-condensed);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .pillar-card-desc {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .pillar-card-status {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    display: inline-block;
+  }
+
+  .status-live { background: rgba(39,174,96,0.15); color: var(--green-bright); }
+  .status-build { background: rgba(212,160,23,0.12); color: var(--gold); }
+  .status-next { background: rgba(255,255,255,0.05); color: var(--white-dim); }
+
+  /* ── BUSINESS MODEL ── */
+  #model {
+    padding: 120px 60px;
+    background: var(--black-2);
+  }
+
+  .model-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 64px;
+    align-items: start;
+  }
+
+  .revenue-streams {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .revenue-item {
+    background: var(--black-3);
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: background 0.2s;
+  }
+
+  .revenue-item:hover { background: var(--black-4); }
+
+  .rev-phase {
+    font-family: var(--font-condensed);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    flex-shrink: 0;
+    min-width: 68px;
+    text-align: center;
+  }
+
+  .rev-phase.p1 { background: var(--green); color: var(--white); }
+  .rev-phase.p2 { background: var(--gold-dim); color: var(--white); }
+  .rev-phase.p3 { background: var(--black-4); color: var(--white-dim); border: 1px solid rgba(255,255,255,0.1); }
+
+  .rev-info { flex: 1; }
+
+  .rev-name {
+    font-family: var(--font-condensed);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .rev-desc {
+    font-size: 13px;
+    color: var(--white-dim);
+  }
+
+  .gtm-block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .gtm-phase {
+    background: var(--black-3);
+    padding: 32px;
+    border-left: 3px solid var(--gold);
+    position: relative;
+  }
+
+  .gtm-phase:nth-child(2) { border-left-color: var(--green-bright); }
+  .gtm-phase:nth-child(3) { border-left-color: var(--white-dim); }
+
+  .gtm-phase-label {
+    font-family: var(--font-condensed);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .gtm-phase:nth-child(2) .gtm-phase-label { color: var(--green-bright); }
+  .gtm-phase:nth-child(3) .gtm-phase-label { color: var(--white-dim); }
+
+  .gtm-phase-title {
+    font-family: var(--font-condensed);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .gtm-phase-desc {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  /* ── FOUNDER ── */
+  #team {
+    padding: 120px 60px;
+    background: var(--black);
+  }
+
+  .founder-block {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 64px;
+  }
+
+  .founder-card {
+    background: var(--black-3);
+    border: 1px solid rgba(212,160,23,0.2);
+    position: relative;
+  }
+
+  .founder-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+  }
+
+  .founder-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--black-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    border-bottom: 1px solid rgba(212,160,23,0.1);
+  }
+
+  .founder-initials {
+    font-family: var(--font-display);
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .founder-img-note {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    opacity: 0.5;
+  }
+
+  .founder-card-body {
+    padding: 32px;
+  }
+
+  .founder-name {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .founder-role {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .founder-credentials {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .founder-cred {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.5;
+  }
+
+  .founder-cred::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .founder-right {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .founder-statement {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1.1;
+    color: var(--white);
+  }
+
+  .founder-statement em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .founder-story {
+    font-size: 16px;
+    color: var(--white-dim);
+    line-height: 1.9;
+    border-left: 3px solid var(--gold);
+    padding-left: 24px;
+    max-width: 520px;
+  }
+
+  .founder-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .founder-tag {
+    font-family: var(--font-condensed);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    background: var(--black-3);
+    color: var(--white-dim);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .founder-tag.highlight {
+    background: rgba(212,160,23,0.1);
+    color: var(--gold);
+    border-color: rgba(212,160,23,0.2);
+  }
+
+  /* Masters note */
+  .masters-note {
+    background: var(--black-3);
+    border: 1px solid rgba(212,160,23,0.2);
+    border-left: 4px solid var(--gold);
+    padding: 24px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .masters-note-icon { font-size: 24px; flex-shrink: 0; }
+
+  .masters-note-text { font-size: 14px; color: var(--white-dim); line-height: 1.7; }
+
+  .masters-note-text strong { color: var(--gold); font-weight: 700; }
+
+  /* ── TRACTION ── */
+  #traction {
+    padding: 80px 60px;
+    background: var(--black-2);
+  }
+
+  .traction-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .traction-item {
+    background: var(--black-3);
+    padding: 36px 28px;
+    text-align: center;
+    position: relative;
+  }
+
+  .traction-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .traction-item:nth-child(1)::after { background: var(--red); }
+  .traction-item:nth-child(2)::after { background: var(--gold); }
+  .traction-item:nth-child(3)::after { background: var(--green); }
+  .traction-item:nth-child(4)::after { background: var(--white-dim); }
+
+  .traction-val {
+    font-family: var(--font-display);
+    font-size: 52px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .traction-key {
+    font-family: var(--font-condensed);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    margin-bottom: 4px;
+  }
+
+  .traction-note {
+    font-size: 12px;
+    color: rgba(184,176,160,0.5);
+    font-style: italic;
+  }
+
+  /* ── DECK / CTA ── */
+  #deck {
+    padding: 120px 60px;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #deck::before {
+    content: 'EMPIRE';
+    position: absolute;
+    left: -20px;
+    bottom: -20px;
+    font-family: var(--font-display);
+    font-size: 220px;
+    color: rgba(212,160,23,0.03);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .deck-inner {
+    background: var(--black-3);
+    border: 1px solid rgba(212,160,23,0.25);
+    padding: 72px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+  }
+
+  .deck-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+  }
+
+  .deck-left {}
+
+  .deck-title {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 0.95;
+    margin-bottom: 20px;
+  }
+
+  .deck-title em { font-style: normal; color: var(--gold); }
+
+  .deck-sub {
+    font-size: 16px;
+    color: var(--white-dim);
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .deck-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .deck-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-item {
+    background: var(--black-4);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .contact-item:hover { background: rgba(212,160,23,0.05); }
+
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: var(--black-3);
+    flex-shrink: 0;
+  }
+
+  .contact-info { flex: 1; }
+
+  .contact-label {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3px;
+  }
+
+  .contact-val {
+    font-size: 14px;
+    color: var(--white);
+  }
+
+  .contact-arrow {
+    font-size: 18px;
+    color: var(--white-dim);
+    transition: transform 0.2s;
+  }
+
+  .contact-item:hover .contact-arrow { transform: translateX(4px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(212,160,23,0.1);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+
+  .footer-logo span { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 13px;
+    color: var(--white-dim);
+    text-align: center;
+  }
+
+  .footer-mvp-link {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-mvp-link:hover { color: var(--gold-light); }
+
+  .footer-pan-stripe {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .stripe-pill {
+    width: 24px;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  .stripe-pill.r { background: var(--red); }
+  .stripe-pill.g { background: var(--gold); }
+  .stripe-pill.gr { background: var(--green); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: var(--black-3);
+    border: 1px solid rgba(212,160,23,0.3);
+    padding: 52px;
+    max-width: 520px;
+    width: 90%;
+    position: relative;
+  }
+
+  .modal-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: none;
+    border: none;
+    color: var(--white-dim);
+    font-size: 26px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: 40px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .modal-sub {
+    font-size: 14px;
+    color: var(--white-dim);
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+
+  .modal-input, .modal-select, .modal-textarea {
+    width: 100%;
+    background: var(--black-4);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .modal-input:focus,
+  .modal-select:focus,
+  .modal-textarea:focus { border-color: var(--gold); }
+
+  .modal-input::placeholder,
+  .modal-textarea::placeholder { color: rgba(255,255,255,0.22); }
+
+  .modal-textarea { resize: vertical; min-height: 90px; }
+
+  .modal-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--black);
+    font-family: var(--font-condensed);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 18px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .modal-submit:hover { background: var(--gold-light); }
+
+  /* MOBILE */
+  @media (max-width: 960px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+
+    #overview { grid-template-columns: 1fr; }
+    .inv-hero-left { padding: 60px 24px 40px; }
+    .inv-hero-right { padding: 40px 24px; min-height: 400px; }
+    .pitch-stack { width: 280px; }
+
+    .conf-bar { padding: 14px 24px; }
+
+    #opportunity { padding: 80px 24px; }
+    .opp-grid { grid-template-columns: 1fr; gap: 40px; }
+    .market-stats { grid-template-columns: repeat(2, 1fr); }
+
+    #product { padding: 80px 24px; }
+    .pillars-grid { grid-template-columns: 1fr 1fr; }
+
+    #model { padding: 80px 24px; }
+    .model-grid { grid-template-columns: 1fr; gap: 48px; }
+
+    #team { padding: 80px 24px; }
+    .founder-block { grid-template-columns: 1fr; }
+
+    #traction { padding: 60px 24px; }
+    .traction-grid { grid-template-columns: repeat(2, 1fr); }
+
+    #deck { padding: 80px 24px; }
+    .deck-inner { padding: 48px 32px; grid-template-columns: 1fr; gap: 40px; }
+
+    footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
 </head>
 <body>
-<header class="inv-nav">
-  <div class="container inv-header">
-    <div class="brand-inv">Empire Sports</div>
-    <nav><a href="#overview">Overview</a><a href="#opportunity">Opportunity</a><a href="#team">Team</a><a id="contactInvestor" class="contact-btn">Contact</a></nav>
-  </div>
-</header>
 
-<section class="inv-hero">
-  <div class="container">
-    <h1>Invest in the future of African sports</h1>
-    <p class="lead">A premium ecosystem: scouting, education, player identity and funding — built to scale.</p>
-    <div class="hero-ctas"><a href="#deck" class="btn-primary">Request full deck</a></div>
+<!-- NAV -->
+<nav>
+  <a href="#overview" class="nav-logo">
+    <span class="empire">EMPIRE</span>&nbsp;SPORTS
+    <span class="nav-badge">Investor Hub</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#opportunity">Opportunity</a></li>
+    <li><a href="#product">Product</a></li>
+    <li><a href="#model">Model</a></li>
+    <li><a href="#team">Founder</a></li>
+    <li><a href="#traction">Traction</a></li>
+  </ul>
+  <a href="#deck" class="nav-cta" onclick="openModal(); return false;">Request Full Deck</a>
+</nav>
+
+<!-- HERO -->
+<section id="overview">
+  <div class="inv-hero-left">
+    <p class="inv-eyebrow">Private Investor Preview</p>
+    <h1 class="inv-headline">
+      <span>THE</span><br>
+      <span class="hl-gold">INFRASTRUCTURE</span><br>
+      <span>AFRICAN</span><br>
+      <span>SPORT</span><br>
+      <span class="hl-dim">NEVER HAD</span>
+    </h1>
+    <p class="inv-sub">
+      Empire Sports is building the continent's first integrated talent pipeline — combining verified scouting, athlete education, digital identity, and structured funding into one platform.
+    </p>
+    <div class="inv-actions">
+      <a href="#deck" class="btn-primary" onclick="openModal(); return false;">Request Full Deck</a>
+      <a href="#opportunity" class="btn-outline">See the Opportunity</a>
+    </div>
+    <div class="inv-trust">
+      <div class="trust-item">
+        <span class="trust-val">300M+</span>
+        <span class="trust-label">Target youth</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-val">54</span>
+        <span class="trust-label">African nations</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-val">$bn</span>
+        <span class="trust-label">Global sports market</span>
+      </div>
+    </div>
+  </div>
+  <div class="inv-hero-right">
+    <div class="pitch-stack">
+      <div class="pitch-card-shadow"></div>
+      <div class="pitch-card">
+        <div class="pitch-label">Live MVP · Early Stage</div>
+        <div class="pitch-title">Empire<br><span>Sports</span></div>
+        <div class="pitch-metrics">
+          <div class="pitch-metric">
+            <div class="pitch-metric-val">Free</div>
+            <div class="pitch-metric-key">Entry model</div>
+          </div>
+          <div class="pitch-metric">
+            <div class="pitch-metric-val">4</div>
+            <div class="pitch-metric-key">Revenue pillars</div>
+          </div>
+          <div class="pitch-metric">
+            <div class="pitch-metric-val">Pan</div>
+            <div class="pitch-metric-key">African scope</div>
+          </div>
+          <div class="pitch-metric">
+            <div class="pitch-metric-val">MVP</div>
+            <div class="pitch-metric-key">Stage</div>
+          </div>
+        </div>
+        <div class="pitch-pillars">
+          <div class="pitch-pillar">
+            <div class="pillar-dot p1"></div>
+            <span class="pillar-name">Scouting & Discovery</span>
+            <span class="pillar-status">Live</span>
+          </div>
+          <div class="pitch-pillar">
+            <div class="pillar-dot p2"></div>
+            <span class="pillar-name">Athlete Education</span>
+            <span class="pillar-status building">Building</span>
+          </div>
+          <div class="pitch-pillar">
+            <div class="pillar-dot p3"></div>
+            <span class="pillar-name">Digital Identity</span>
+            <span class="pillar-status building">Building</span>
+          </div>
+          <div class="pitch-pillar">
+            <div class="pillar-dot p4"></div>
+            <span class="pillar-name">Funding Rails</span>
+            <span class="pillar-status building">Building</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stripe">
+    <span></span><span></span><span></span>
   </div>
 </section>
 
-<section id="overview" class="section">
-  <div class="container">
-    <h2>Executive Summary</h2>
-    <p>Empire Sports creates the infrastructure to discover and fund the next generation of professional athletes across emerging markets.</p>
-    <div class="metrics">
-      <div><strong>300M+</strong><span>youth in target region</span></div>
-      <div><strong>Massive</strong><span>global sports market</span></div>
-      <div><strong>Free-first</strong><span>user acquisition</span></div>
+<!-- CONFIDENTIAL BAR -->
+<div class="conf-bar">
+  <span class="conf-icon">🔒</span>
+  <p class="conf-text"><strong>Confidential:</strong> This material is intended for qualified investors and partners only. Not for public distribution. Empire Sports — Sports Management International LLC.</p>
+</div>
+
+<!-- OPPORTUNITY -->
+<section id="opportunity">
+  <p class="section-label">The Problem</p>
+  <h2 class="section-title">A BROKEN<br><em>PIPELINE</em></h2>
+  <div class="opp-grid">
+    <div>
+      <div class="opp-col-label problem">The Problem</div>
+      <div class="problem-block">
+        <div class="problem-item">
+          <div class="problem-title">Talent is invisible</div>
+          <p class="problem-desc">Millions of gifted athletes across Africa have no structured way to be seen by scouts or clubs beyond their immediate geography.</p>
+        </div>
+        <div class="problem-item">
+          <div class="problem-title">Agents exploit the gap</div>
+          <p class="problem-desc">Without regulated pipelines, athletes and families fall prey to unlicensed agents, fake trials, and exploitative deals.</p>
+        </div>
+        <div class="problem-item">
+          <div class="problem-title">No digital identity</div>
+          <p class="problem-desc">Athletes have no verified, portable record of their ability, history, or credentials that clubs and academies can trust.</p>
+        </div>
+        <div class="problem-item">
+          <div class="problem-title">Money stops dreams</div>
+          <p class="problem-desc">The cost of trials, travel, and development stops talented athletes before they ever get in front of the right people.</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="opp-col-label solution">Empire Sports' Answer</div>
+      <div class="solution-block">
+        <div class="solution-item">
+          <div class="solution-title">Free clip submission, anywhere</div>
+          <p class="solution-desc">Any athlete with a phone can submit a clip. We remove the geography barrier from day one.</p>
+        </div>
+        <div class="solution-item">
+          <div class="solution-title">FIFA-trained evaluation</div>
+          <p class="solution-desc">Reviews conducted by a team trained in FIFA agent methodology — structured, honest, and expert.</p>
+        </div>
+        <div class="solution-item">
+          <div class="solution-title">Verified athlete profiles</div>
+          <p class="solution-desc">A portable, trusted digital profile that athletes own and clubs can rely on — built on real evaluation data.</p>
+        </div>
+        <div class="solution-item">
+          <div class="solution-title">Structured funding pathways</div>
+          <p class="solution-desc">Scholarship connections, talent grants, and an investor pipeline — so money follows merit, not luck.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="market-stats">
+    <div class="market-stat">
+      <div class="market-stat-val">300M+</div>
+      <div class="market-stat-label">Youth in target region</div>
+    </div>
+    <div class="market-stat">
+      <div class="market-stat-val">54</div>
+      <div class="market-stat-label">African nations in scope</div>
+    </div>
+    <div class="market-stat">
+      <div class="market-stat-val">$600B+</div>
+      <div class="market-stat-label">Global sports industry</div>
+    </div>
+    <div class="market-stat">
+      <div class="market-stat-val">0</div>
+      <div class="market-stat-label">Dominant pan-African platforms</div>
     </div>
   </div>
 </section>
 
-<section id="opportunity" class="section alt">
-  <div class="container">
-    <h2>Market Opportunity</h2>
-    <p class="lead">Young population, rising smartphone adoption and global demand for talent combine to create a generational opportunity.</p>
-    <div class="cards">
-      <div class="card"><h4>Product</h4><p>Four-pillar ecosystem with verified identity and funding rails.</p></div>
-      <div class="card"><h4>Business Model</h4><p>Free → Premium reports, partnerships, marketplace fees and finance fees.</p></div>
-      <div class="card"><h4>Go to Market</h4><p>Start in Nigeria, scale to West Africa and diaspora channels.</p></div>
+<!-- PRODUCT -->
+<section id="product">
+  <p class="section-label">The Platform</p>
+  <h2 class="section-title">FOUR PILLARS.<br><em>ONE ECOSYSTEM.</em></h2>
+  <div class="pillars-grid">
+    <div class="pillar-card">
+      <div class="pillar-num">01</div>
+      <div class="pillar-icon-box">🔍</div>
+      <div class="pillar-card-title">Scouting & Discovery</div>
+      <p class="pillar-card-desc">Free clip submission, manual expert review, written scouting reports. The entry point that builds trust and drives acquisition.</p>
+      <span class="pillar-card-status status-live">Live Now</span>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">02</div>
+      <div class="pillar-icon-box">🎓</div>
+      <div class="pillar-card-title">Athlete Education</div>
+      <p class="pillar-card-desc">Practical modules on contracts, agents, trials, scholarships, and the business of sport. Free entry, premium depth.</p>
+      <span class="pillar-card-status status-build">In Development</span>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">03</div>
+      <div class="pillar-icon-box">🪪</div>
+      <div class="pillar-card-title">Digital Identity</div>
+      <p class="pillar-card-desc">Verified athlete profiles athletes own — portable, trusted records of ability, history and credentials. The platform's core data asset.</p>
+      <span class="pillar-card-status status-build">In Development</span>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">04</div>
+      <div class="pillar-icon-box">💰</div>
+      <div class="pillar-card-title">Funding Rails</div>
+      <p class="pillar-card-desc">Scholarship matching, talent micro-grants, and an investor pipeline connecting capital directly to verified athletes.</p>
+      <span class="pillar-card-status status-next">Next Phase</span>
     </div>
   </div>
 </section>
 
-<section id="team" class="section">
-  <div class="container">
-    <h2>Team & Advisors</h2>
-    <div class="team-grid">
-      <div class="person card"><img src="assets/img/founder.jpg" alt="founder"/><h4>[Your Name]</h4><p>Founder — IT, scouting, FIFA exam.</p></div>
-      <div class="person card"><img src="assets/img/advisor1.jpg" alt="advisor"/><h4>Scout Advisor</h4><p>Regional scouting expertise.</p></div>
-      <div class="person card"><img src="assets/img/advisor2.jpg" alt="advisor"/><h4>Tech Advisor</h4><p>ML & product leader.</p></div>
+<!-- BUSINESS MODEL -->
+<section id="model">
+  <p class="section-label">Business Model</p>
+  <h2 class="section-title">HOW WE<br><em>MAKE MONEY</em></h2>
+  <div class="model-grid">
+    <div>
+      <p style="font-size:15px; color:var(--white-dim); line-height:1.8; margin-bottom:32px;">
+        Free entry is the acquisition engine. Revenue comes from premium services layered on top of verified data — reports, partnerships, marketplace fees, and finance fees.
+      </p>
+      <div class="revenue-streams">
+        <div class="revenue-item">
+          <span class="rev-phase p1">Phase 1</span>
+          <div class="rev-info">
+            <div class="rev-name">Premium Scouting Reports</div>
+            <div class="rev-desc">Detailed written evaluations beyond the free tier</div>
+          </div>
+        </div>
+        <div class="revenue-item">
+          <span class="rev-phase p1">Phase 1</span>
+          <div class="rev-info">
+            <div class="rev-name">Club & Academy Subscriptions</div>
+            <div class="rev-desc">Access to verified athlete database and search tools</div>
+          </div>
+        </div>
+        <div class="revenue-item">
+          <span class="rev-phase p2">Phase 2</span>
+          <div class="rev-info">
+            <div class="rev-name">Academy Education Premium</div>
+            <div class="rev-desc">Advanced modules, certification pathways</div>
+          </div>
+        </div>
+        <div class="revenue-item">
+          <span class="rev-phase p2">Phase 2</span>
+          <div class="rev-info">
+            <div class="rev-name">Marketplace Transaction Fees</div>
+            <div class="rev-desc">Percentage on talent placement deals facilitated</div>
+          </div>
+        </div>
+        <div class="revenue-item">
+          <span class="rev-phase p3">Phase 3</span>
+          <div class="rev-info">
+            <div class="rev-name">Funding & Finance Fees</div>
+            <div class="rev-desc">Administration fees on scholarship and grant placements</div>
+          </div>
+        </div>
+        <div class="revenue-item">
+          <span class="rev-phase p3">Phase 3</span>
+          <div class="rev-info">
+            <div class="rev-name">Partner & Sponsor Integrations</div>
+            <div class="rev-desc">Sports brands, academies, leagues, governing bodies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="opp-col-label" style="color:var(--gold); font-size:22px; margin-bottom:20px;">Go-To-Market</div>
+      <div class="gtm-block">
+        <div class="gtm-phase">
+          <div class="gtm-phase-label">Now — Validation</div>
+          <div class="gtm-phase-title">Nigeria & West Africa</div>
+          <p class="gtm-phase-desc">Prove the submission-to-evaluation loop. Build the first wave of verified profiles. Establish trust with athletes and families across ECOWAS.</p>
+        </div>
+        <div class="gtm-phase">
+          <div class="gtm-phase-label">Next — Expansion</div>
+          <div class="gtm-phase-title">Pan-African Scale</div>
+          <p class="gtm-phase-desc">East Africa, Southern Africa, North Africa. Recruit regional scout partners. Launch academy modules. Open club and academy subscriptions.</p>
+        </div>
+        <div class="gtm-phase">
+          <div class="gtm-phase-label">Future — Global</div>
+          <div class="gtm-phase-title">Diaspora & International</div>
+          <p class="gtm-phase-desc">Serve African diaspora athletes in Europe and North America. Partner with European academies and MLS clubs seeking African talent pipelines.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="deck" class="section deck">
-  <div class="container">
-    <h2>Pitch Deck Snapshot</h2>
-    <ol>
-      <li>Problem: Broken pipelines</li>
-      <li>Insight: Talent + Tech = Ownership</li>
-      <li>Solution: Platform + Funding</li>
-      <li>Business Model & Projections</li>
-    </ol>
-    <p class="small">Request the full deck via the contact button.</p>
+<!-- FOUNDER -->
+<section id="team">
+  <p class="section-label">The Founder</p>
+  <h2 class="section-title">BUILT BY<br><em>AN INSIDER</em></h2>
+  <div class="founder-block">
+    <div class="founder-card">
+      <div class="founder-img-placeholder">
+        <div class="founder-initials">ES</div>
+        <div class="founder-img-note">Photo coming soon</div>
+      </div>
+      <div class="founder-card-body">
+        <div class="founder-name">Founder</div>
+        <div class="founder-role">CEO · Empire Sports</div>
+        <div class="founder-credentials">
+          <div class="founder-cred">FIFA Agent Exam Qualified — License in process (rewriting 2025)</div>
+          <div class="founder-cred">Masters in Entrepreneurship candidate</div>
+          <div class="founder-cred">Football scouting & sports management background</div>
+          <div class="founder-cred">Sports Management International LLC — incorporated</div>
+          <div class="founder-cred">Pan-African sports network across West, East & Southern Africa</div>
+        </div>
+      </div>
+    </div>
+    <div class="founder-right">
+      <div class="founder-statement">
+        "I BUILT THE PLATFORM<br>I WISHED EXISTED<br><em>WHEN I STARTED."</em>
+      </div>
+      <p class="founder-story">
+        Empire Sports was born from direct experience inside the sports industry — seeing firsthand how talent gets lost, how athletes get exploited, and how the infrastructure simply doesn't exist for the continent with the world's youngest and most athletic population. This isn't a tech founder who discovered a gap from the outside. This is an industry professional building the infrastructure from within.
+      </p>
+      <div class="founder-tags">
+        <span class="founder-tag highlight">FIFA Exam Qualified</span>
+        <span class="founder-tag highlight">Active Scouting Network</span>
+        <span class="founder-tag">Masters Entrepreneur</span>
+        <span class="founder-tag">Pan-African Focus</span>
+        <span class="founder-tag">LLC Incorporated</span>
+        <span class="founder-tag">Live MVP</span>
+      </div>
+      <div class="masters-note">
+        <span class="masters-note-icon">🎓</span>
+        <p class="masters-note-text"><strong>Validated at academic level:</strong> Empire Sports was presented as a live ongoing venture during the founder's Masters in Entrepreneurship application — accepted as proof of real-world build capability, not just theoretical business planning.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<footer class="inv-footer">
-  <div class="container">
-    <div>© 2025 Empire Sports</div>
-    <div>Private investor preview</div>
+<!-- TRACTION -->
+<section id="traction">
+  <p class="section-label">Traction</p>
+  <h2 class="section-title">WHERE<br><em>WE STAND</em></h2>
+  <div class="traction-grid">
+    <div class="traction-item">
+      <div class="traction-val">Live</div>
+      <div class="traction-key">MVP Status</div>
+      <div class="traction-note">Deployed on GitHub Pages</div>
+    </div>
+    <div class="traction-item">
+      <div class="traction-val">2</div>
+      <div class="traction-key">Sites Deployed</div>
+      <div class="traction-note">MVP + Investor Hub</div>
+    </div>
+    <div class="traction-item">
+      <div class="traction-val">4</div>
+      <div class="traction-key">Regions Targeted</div>
+      <div class="traction-note">West, East, South, North Africa</div>
+    </div>
+    <div class="traction-item">
+      <div class="traction-val">Open</div>
+      <div class="traction-key">Submissions</div>
+      <div class="traction-note">Free — accepting now</div>
+    </div>
+  </div>
+</section>
+
+<!-- DECK CTA -->
+<section id="deck">
+  <div class="deck-inner">
+    <div class="deck-left">
+      <h2 class="deck-title">READY TO<br><em>GO DEEPER?</em></h2>
+      <p class="deck-sub">
+        Request the full pitch deck — including detailed financial projections, competitive landscape, partnership pipeline, and investment terms.
+      </p>
+      <div class="deck-actions">
+        <button class="btn-primary" onclick="openModal()">Request Full Deck</button>
+        <a href="https://sportsmanagentintllc-byte.github.io/empire-sports-mvp/" target="_blank" class="btn-outline">View Live MVP →</a>
+      </div>
+    </div>
+    <div class="deck-right">
+      <a href="mailto:sportsmanagentintllc@gmail.com" class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-info">
+          <div class="contact-label">Email</div>
+          <div class="contact-val">sportsmanagentintllc@gmail.com</div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <div class="contact-item" style="cursor:default;">
+        <div class="contact-icon">🌍</div>
+        <div class="contact-info">
+          <div class="contact-label">Platform</div>
+          <div class="contact-val">empire-sports-mvp (GitHub Pages)</div>
+        </div>
+      </div>
+      <div class="contact-item" style="cursor:default;">
+        <div class="contact-icon">🏢</div>
+        <div class="contact-info">
+          <div class="contact-label">Entity</div>
+          <div class="contact-val">Sports Management International LLC</div>
+        </div>
+      </div>
+      <div class="contact-item" style="cursor:default;">
+        <div class="contact-icon">📍</div>
+        <div class="contact-info">
+          <div class="contact-label">Focus</div>
+          <div class="contact-val">Pan-African · All Sports · Football First</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span>EMPIRE</span> SPORTS</div>
+  <p class="footer-copy">© 2025 Empire Sports · Sports Management International LLC · Private investor preview</p>
+  <a href="https://sportsmanagentintllc-byte.github.io/empire-sports-mvp/" target="_blank" class="footer-mvp-link">← View Live MVP</a>
+  <div class="footer-pan-stripe">
+    <span class="stripe-pill r"></span>
+    <span class="stripe-pill g"></span>
+    <span class="stripe-pill gr"></span>
   </div>
 </footer>
 
-<script src="script.js"></script>
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title">Request Deck</div>
+    <p class="modal-sub">Fill in your details and we'll send the full pitch deck directly to you within 48 hours.</p>
+    <input class="modal-input" type="text" placeholder="Full name"/>
+    <input class="modal-input" type="text" placeholder="Organisation / Fund"/>
+    <input class="modal-input" type="email" placeholder="Email address"/>
+    <select class="modal-select">
+      <option value="" disabled selected>I am a...</option>
+      <option>Angel Investor</option>
+      <option>VC / Fund</option>
+      <option>Sports Organisation</option>
+      <option>Academic / Researcher</option>
+      <option>Strategic Partner</option>
+      <option>Other</option>
+    </select>
+    <textarea class="modal-textarea" placeholder="Brief message (optional) — what interests you most about Empire Sports?"></textarea>
+    <button class="modal-submit" onclick="submitDeck()">Send Request →</button>
+  </div>
+</div>
+
+<script>
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  function submitDeck() {
+    const box = document.querySelector('.modal-box');
+    box.innerHTML = `
+      <div style="text-align:center; padding:20px 0;">
+        <div style="font-size:52px; margin-bottom:16px;">🏆</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:40px; color:#D4A017; margin-bottom:12px;">Request Received</div>
+        <p style="color:#B8B0A0; font-size:15px; line-height:1.8; margin-bottom:28px; max-width:340px; margin-left:auto; margin-right:auto;">
+          Thank you for your interest in Empire Sports. We'll review your request and send the full deck within 48 hours.
+        </p>
+        <button onclick="closeModal()" style="background:#D4A017; color:#0A0A0A; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:14px 36px; border:none; cursor:pointer;">Close</button>
+      </div>
+    `;
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.borderBottomColor =
+      window.scrollY > 60 ? 'rgba(212,160,23,0.3)' : 'rgba(212,160,23,0.15)';
+  });
+</script>
 </body>
 </html>
