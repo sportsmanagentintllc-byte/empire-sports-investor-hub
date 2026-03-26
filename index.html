@@ -671,6 +671,24 @@
 
   .modal-field textarea { resize: vertical; min-height: 80px; }
 
+  .field-error {
+    display: none;
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+  }
+  .modal-field input.invalid,
+  .modal-field select.invalid,
+  .modal-field textarea.invalid {
+    border-color: var(--red) !important;
+  }
+  .modal-field input.invalid:focus,
+  .modal-field select.invalid:focus {
+    outline-color: var(--red);
+  }
+
   .modal-submit {
     width: 100%;
   }
@@ -1118,7 +1136,7 @@
       </div>
       <div style="text-align:right;">
         <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">Direct Contact</div>
-        <a href="mailto:sportsmanagentintllc@gmail.com" style="color:var(--gold); text-decoration:none; font-size:14px;">sportsmanagentintllc@gmail.com</a>
+        <a href="/cdn-cgi/l/email-protection#0172716e7375726c606f6066646f75686f756d6d6241666c60686d2f626e6c" style="color:var(--gold); text-decoration:none; font-size:14px;"><span class="__cf_email__" data-cfemail="97e4e7f8e5e3e4faf6f9f6f0f2f9e3fef9e3fbfbf4d7f0faf6fefbb9f4f8fa">[email&#160;protected]</span></a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -1136,16 +1154,18 @@
     <div class="modal-title">REQUEST DECK</div>
     <div class="modal-sub">Tell us who you are and what you're looking to understand. We'll follow up directly within 48 hours.</div>
     <div class="modal-field">
-      <label>Full Name</label>
-      <input type="text" placeholder="Your name">
+      <label>Full Name <span style="color:var(--red)">*</span></label>
+      <input type="text" id="field-name" placeholder="Your name">
+      <div class="field-error" id="err-name">Please enter your full name.</div>
     </div>
     <div class="modal-field">
-      <label>Organisation</label>
-      <input type="text" placeholder="Fund, company, or individual">
+      <label>Organisation <span style="color:var(--red)">*</span></label>
+      <input type="text" id="field-org" placeholder="Fund, company, or individual">
+      <div class="field-error" id="err-org">Please enter your organisation or indicate "Individual".</div>
     </div>
     <div class="modal-field">
-      <label>Investor Type</label>
-      <select>
+      <label>Investor Type <span style="color:var(--red)">*</span></label>
+      <select id="field-type">
         <option value="">Select...</option>
         <option>Angel Investor</option>
         <option>Venture Capital</option>
@@ -1154,33 +1174,95 @@
         <option>Strategic Partner</option>
         <option>Other</option>
       </select>
+      <div class="field-error" id="err-type">Please select your investor type.</div>
     </div>
     <div class="modal-field">
-      <label>Email</label>
-      <input type="email" placeholder="your@email.com">
+      <label>Email <span style="color:var(--red)">*</span></label>
+      <input type="email" id="field-email" placeholder="your@email.com">
+      <div class="field-error" id="err-email">Please enter a valid email address.</div>
     </div>
     <div class="modal-field">
       <label>What interests you most? (optional)</label>
-      <textarea placeholder="The market opportunity, the model, the team..."></textarea>
+      <textarea id="field-message" placeholder="The market opportunity, the model, the team..."></textarea>
     </div>
+    <div id="submit-error" style="display:none; color:var(--red); font-size:13px; font-weight:600; letter-spacing:1px; margin-bottom:12px;">⚠ Please fill in all required fields before submitting.</div>
     <button class="btn-primary modal-submit" onclick="submitDeckRequest()">Send Request ↗</button>
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   function openModal() {
     document.getElementById('modalOverlay').classList.add('active');
   }
 
   function closeModal() {
     document.getElementById('modalOverlay').classList.remove('active');
+    // Small delay so reset happens after modal fades out
+    setTimeout(() => {
+      ['field-name','field-org','field-email'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.value = ''; el.classList.remove('invalid'); }
+      });
+      const sel = document.getElementById('field-type');
+      if (sel) { sel.value = ''; sel.classList.remove('invalid'); }
+      const msg = document.getElementById('field-message');
+      if (msg) msg.value = '';
+      ['err-name','err-org','err-type','err-email','submit-error'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+    }, 300);
   }
 
   function submitDeckRequest() {
+    // Grab fields
+    const name    = document.getElementById('field-name');
+    const org     = document.getElementById('field-org');
+    const type    = document.getElementById('field-type');
+    const email   = document.getElementById('field-email');
+
+    // Reset previous errors
+    ['name','org','type','email'].forEach(f => {
+      document.getElementById('field-' + f).classList.remove('invalid');
+      document.getElementById('err-' + f).style.display = 'none';
+    });
+    document.getElementById('submit-error').style.display = 'none';
+
+    // Validate
+    let valid = true;
+
+    if (!name.value.trim()) {
+      name.classList.add('invalid');
+      document.getElementById('err-name').style.display = 'block';
+      valid = false;
+    }
+    if (!org.value.trim()) {
+      org.classList.add('invalid');
+      document.getElementById('err-org').style.display = 'block';
+      valid = false;
+    }
+    if (!type.value) {
+      type.classList.add('invalid');
+      document.getElementById('err-type').style.display = 'block';
+      valid = false;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value.trim() || !emailPattern.test(email.value.trim())) {
+      email.classList.add('invalid');
+      document.getElementById('err-email').style.display = 'block';
+      valid = false;
+    }
+
+    if (!valid) {
+      document.getElementById('submit-error').style.display = 'block';
+      return; // Stop — do NOT show success
+    }
+
+    // All good — show success
     const modal = document.querySelector('.modal');
     modal.innerHTML = `
       <div style="text-align:center; padding: 20px 0;">
-        <div style="font-size:48px; margin-bottom:20px;"></div>
+        <div style="font-size:48px; margin-bottom:20px;">✅</div>
         <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--gold); letter-spacing:2px; margin-bottom:12px;">REQUEST RECEIVED</div>
         <p style="color:var(--muted); font-size:15px; line-height:1.7;">We'll be in touch within 48 hours.<br>We look forward to the conversation.</p>
         <button class="btn-outline" style="margin-top:24px;" onclick="closeModal()">Close</button>
@@ -1211,13 +1293,4 @@
   }
 
   (function() {
-    const saved = localStorage.getItem('gundua-investor-theme');
-    if (saved === 'light') {
-      document.body.classList.add('light');
-      const btn = document.getElementById('themeBtn');
-      if (btn) btn.textContent = '🌙';
-    }
-  })();
-</script>
-</body>
-</html>
+    const
